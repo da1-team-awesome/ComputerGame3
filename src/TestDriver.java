@@ -3,17 +3,15 @@ import java.net.URISyntaxException;
 
 public class TestDriver {
     public static void main(String[] args) {
-        /*
+
         try {
-            TestServer.test("CG3-1");
+            TestServer.test("CG3-2");
         } catch (Exception e) {
             System.out.println(e);
         }
-         */
 
-        GUI.createGameBoard();
 
-        // GUI.createGameBoard();
+         //GUI.createGameBoard();
 //        Country dk = new Country("Denmark");
 //
 //        City aarhus = new City("Aarhus", 50, dk);

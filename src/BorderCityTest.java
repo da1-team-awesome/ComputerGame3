@@ -77,22 +77,30 @@ public class BorderCityTest {
     }
 
     @Test
-    public void arrive() {
+    public void arriveFromSameCountry() {
         // This player is from the same country. It shouldn't pay any toll
         // City C is a border city, whilst city A is not.
-        Player p = new GUIPlayer(new Position(cityA,cityC,0),200);
+        Player p = new GUIPlayer(new Position(cityA, cityC, 0), 200);
         int n = 100000;
         int sum = 0;
         for (int i = 0; i < n; i++) {
+            p.getFromCountry().getGame().getRandom().setSeed(i);
             // Set the city value to 100
             cityC.changeValue(-cityC.getValue());
             cityC.changeValue(100);
             // Add the sum of arrival bonus
-            sum+=cityC.arrive(p);
+            sum += cityC.arrive(p);
         }
-        assertTrue((double)sum/n < 50*1.1);
-        assertTrue((double)sum/n > 50*0.9);
+        assertTrue((double) sum / n < 50 * 1.1);
+        assertTrue((double) sum / n > 50 * 0.9);
 
+    }
+
+    @Test
+    public void arriveFromOtherCountry() {
+        Player p;
+        int sum;
+        int n = 100000;
         // This player is not from the same country. It SHOULD pay a toll.
         p = new GUIPlayer(new Position(cityE,cityC,0),200);
         int tollPercentage = cityE.getCountry().getGame().getSettings().getTollToBePaid();
@@ -106,6 +114,7 @@ public class BorderCityTest {
         for (int i = 0; i < n; i++) {
             // reset player each time
             p = new GUIPlayer(new Position(cityE,cityC,0),200);
+            p.getFromCountry().getGame().getRandom().setSeed(i);
             // Set the city value to 100
             cityC.changeValue(-cityC.getValue());
             cityC.changeValue(100);
@@ -127,6 +136,5 @@ public class BorderCityTest {
         // Check we paid the correct toll. The paid toll should be -(Money*Toll%)
         assertTrue((double)sum/n < -(money * tollPercentage * 0.01)*0.9);
         assertTrue((double)sum/n > -(money * tollPercentage * 0.01)*1.1);
-
     }
 }
