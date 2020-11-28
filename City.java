@@ -70,6 +70,10 @@ public class City implements Comparable<City> {
         return bonus;
     }
 
+    public int arrive(Player p) {
+        return arrive();
+    }
+
     /**
      * Get the initial value of this city.
      * @return Initial value of city.

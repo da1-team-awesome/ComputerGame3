@@ -32,19 +32,19 @@ public class TestServer {
         switch(ex) {
 
             case "cg1":
-                downloadCourseFiles("cg1","Game.java","GUI.java",
-                    "Settings.java","Player.java","GUIPlayer.java","RandomPlayer.java",
-                    "GreedyPlayer.java","SmartPlayer.java","CGTest.java",
-                    "network.dat","map.png","greedyplayer.png","randomplayer.png",
-                    "smartplayer.png","guiplayer.png");
+                downloadCourseFiles("cg1", "Game.java", "GUI.java",
+                        "Settings.java", "Player.java", "GUIPlayer.java", "RandomPlayer.java",
+                        "GreedyPlayer.java", "SmartPlayer.java", "CGTest.java",
+                        "network.dat", "map.png", "greedyplayer.png", "randomplayer.png",
+                        "smartplayer.png", "guiplayer.png");
                 break;
             case "cg3":
-                downloadCourseFiles("cg3","Game.java","GUI.java","Generator.java",
-                    "Player.java","RandomPlayer.java",
-                    "GreedyPlayer.java","SmartPlayer.java");
+                downloadCourseFiles("cg3", "Game.java", "GUI.java","Generator.java",
+                        "Player.java", "RandomPlayer.java",
+                        "GreedyPlayer.java", "SmartPlayer.java");
                 break;
             case "cg5":
-                downloadCourseFiles("cg5","LogPlayer.java","Game.java","Settings.java");
+                downloadCourseFiles("cg5","LogPlayer.java", "Game.java", "Settings.java");
                 break;
         }
     }
