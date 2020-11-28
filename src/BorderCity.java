@@ -1,4 +1,9 @@
-
+/**
+ * Border city class. Represents a border city in the game.
+ * @author A. Malthe Henriksen
+ * @author Gustav Burchardt
+ * @since 2.0
+ */
 public class BorderCity extends City {
     /**
      * Constructor for City object.
@@ -13,11 +18,28 @@ public class BorderCity extends City {
 
     @Override
     public int arrive(Player p) {
-        double money = p.getMoney();
+        // Get player money and from country
+        int money = p.getMoney();
         Country fromCountry = p.getFromCountry();
+
+        if (fromCountry.equals(getCountry())) {
+            // Player is from the same country. Don't pay toll
+            return arrive();
+        }
+        // Player is NOT from the same country. Do pay toll
+        // 0-100 toll percentage
         int tollPercentage = fromCountry.getGame().getSettings().getTollToBePaid();
-        double toll = Math.floor(tollPercentage * 0.01 * money);
-        changeValue((int)toll);
-        return fromCountry.bonus(getValue()) - (int)toll;
+        // Convert to decimals
+        double decimalPercentage = (double)tollPercentage/100;
+        // Calculate the toll from the player's fortune.
+        int toll = (int) Math.floor((double)money * decimalPercentage);
+
+        // Calculate total
+        int total = arrive() - toll;
+
+        // Add toll to value
+        changeValue(toll);
+
+        return total;
     }
 }

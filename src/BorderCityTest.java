@@ -1,10 +1,20 @@
 import org.junit.Before;
+import org.junit.Test;
 
+import static org.junit.Assert.*;
+
+/**
+ * Border city test class. Use for testing border cities.
+ * @author A. Malthe Henriksen
+ * @author Gustav Burchardt
+ * @since 1.0
+ */
 public class BorderCityTest {
     private Game game;
     private Country country1, country2;
     private City cityA, cityB, cityG;
     private BorderCity cityC, cityD, cityE, cityF;
+    private GUIPlayer player;
 
     /**
      * Sets up the test fixture.
@@ -14,9 +24,15 @@ public class BorderCityTest {
     @Before
     public void setUp()
     {
+        game = new Game(456);
         // Create countries
         country1 = new Country("Country 1");
         country2 = new Country("Country 2");
+
+        country1.setGame(game);
+        country2.setGame(game);
+
+        player = new GUIPlayer(new Position(cityA,cityA,0),500);
 
         // Create cities
         cityA = new City("City A", 80, country1);
@@ -52,8 +68,65 @@ public class BorderCityTest {
         country2.addRoads(cityF, cityG, 6);
     }
 
+    @Test
+    public void constructor() {
+        assertTrue(country1.equals(cityC.getCountry()));
+        assertEquals(40, cityC.getInitialValue());
+        assertEquals(40, cityC.getValue());
+        assertEquals("City C", cityC.getName());
+    }
 
+    @Test
     public void arrive() {
+        // This player is from the same country. It shouldn't pay any toll
+        // City C is a border city, whilst city A is not.
+        Player p = new GUIPlayer(new Position(cityA,cityC,0),200);
+        int n = 100000;
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            // Set the city value to 100
+            cityC.changeValue(-cityC.getValue());
+            cityC.changeValue(100);
+            // Add the sum of arrival bonus
+            sum+=cityC.arrive(p);
+        }
+        assertTrue((double)sum/n < 50*1.1);
+        assertTrue((double)sum/n > 50*0.9);
+
+        // This player is not from the same country. It SHOULD pay a toll.
+        p = new GUIPlayer(new Position(cityE,cityC,0),200);
+        int tollPercentage = cityE.getCountry().getGame().getSettings().getTollToBePaid();
+        int money = p.getMoney();
+        sum = 0;
+        // Record the resulting values for cities
+        int minVal = 100000000;
+        int maxVal = 0;
+
+        // Test
+        for (int i = 0; i < n; i++) {
+            // reset player each time
+            p = new GUIPlayer(new Position(cityE,cityC,0),200);
+            // Set the city value to 100
+            cityC.changeValue(-cityC.getValue());
+            cityC.changeValue(100);
+            // Add the sum of arrival bonus. If no toll is paid then the average should be 50, so we deduct the average, to get the amount of toll paid.
+            sum+= cityC.arrive(p) - 50;
+
+            if (minVal > cityC.getValue()) {
+                minVal = cityC.getValue();
+            }
+            if (maxVal < cityC.getValue()) {
+                maxVal = cityC.getValue();
+            }
+
+        }
+        // Check the city values didn't exceed expected minimums or maximums
+        assertNotEquals(40,minVal);
+        assertNotEquals(141,maxVal);
+
+        // Check we paid the correct toll. The paid toll should be -(Money*Toll%)
+        assertTrue((double)sum/n < -(money * tollPercentage * 0.01)*0.9);
+        assertTrue((double)sum/n > -(money * tollPercentage * 0.01)*1.1);
 
     }
 }

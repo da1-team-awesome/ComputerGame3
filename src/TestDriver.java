@@ -3,11 +3,15 @@ import java.net.URISyntaxException;
 
 public class TestDriver {
     public static void main(String[] args) {
+        /*
         try {
             TestServer.test("CG3-1");
         } catch (Exception e) {
             System.out.println(e);
         }
+         */
+
+        GUI.createGameBoard();
 
         // GUI.createGameBoard();
 //        Country dk = new Country("Denmark");
