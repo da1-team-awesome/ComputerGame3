@@ -80,6 +80,9 @@ public class MafiaCountryTest {
         double totalLoss = 0;
         Set<Integer> usedLosses = new TreeSet<>();
 
+        double totalBonus = 0;
+        Set<Integer> usedBonuses = new TreeSet<>();
+
         for (int i = 0; i < n; i++) {
             game.getRandom().setSeed(i);
             int risk = game.getSettings().getRisk();
@@ -97,6 +100,8 @@ public class MafiaCountryTest {
                 assertEquals(loss, -bonus);
             } else {
                 assertTrue(chance >= risk);
+                totalBonus += bonus;
+                usedBonuses.add(bonus);
             }
         }
 
@@ -116,5 +121,18 @@ public class MafiaCountryTest {
         int max = Collections.max(usedLosses);
         assertEquals(10, min);
         assertEquals(50, max);
+
+        // Should give all values from 0 to 9 (a total of 10)
+        assertEquals(10, usedBonuses.size());
+
+        // We also need to check that the 10 possible values are in the interval [0, 9]
+        min = Collections.min(usedBonuses);
+        max = Collections.max(usedBonuses);
+        assertEquals(0, min);
+        assertEquals(9, max);
+
+        // Check that the average bonus is 4.5
+        double averageBonus = totalBonus / (n - timesRobbed);
+        assertTrue(Math.abs(averageBonus - 4.5) < 0.5);
     }
 }

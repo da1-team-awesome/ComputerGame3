@@ -1,5 +1,5 @@
 /**
- * Test class for Mafia Country
+ * Mafia Country
  * @author A. Malthe Henriksen
  * @author Gustav Burchardt
  * @since 1.0

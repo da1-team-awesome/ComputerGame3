@@ -249,7 +249,7 @@ public class TestServer {
             case "cg3-4":
             files = new String[] {"City","CityTest"}; break;
             case "cg3":
-            files = new String[] {"City","BorderCity","CapitalCity","MafiaCountry"}; break;
+            files = new String[] {"City","BorderCity","CapitalCity","MafiaCountry", "BorderCityTest", "CapitalCityTest", "MafiaCountryTest"}; break;
 
             case "cg5":
             files = new String[] {"Log"}; break;
