@@ -5,7 +5,7 @@ public class TestDriver {
     public static void main(String[] args) {
 
         try {
-            TestServer.test("CG3-2");
+            TestServer.test("CG3-3");
         } catch (Exception e) {
             System.out.println(e);
         }
